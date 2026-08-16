@@ -1,0 +1,9 @@
+{
+  "cpuLimit": 0.5,
+  "memoryLimitMb": 128,
+  "pidLimit": 50,
+  "timeoutSeconds": 5,
+  "networkEnabled": false,
+  "readOnlyFilesystem": true,
+  "seccompProfile": "unconfined"
+}
