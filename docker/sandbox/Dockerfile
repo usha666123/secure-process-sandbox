@@ -1,13 +1,21 @@
 FROM ubuntu:24.04
 
-# Create a non-privileged system user named sandbox with a home directory
+# 1. Stay as root temporarily to install packages
+USER root
+
+# 2. Prevent interactive prompts during installation
+ENV DEBIAN_FRONTEND=noninteractive
+
+# 3. Update package lists and install python3 minimal
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    python3 \
+    && rm -rf /var/lib/apt/lists/*
+
+# 4. Create the non-privileged system user
 RUN useradd -m -s /bin/bash sandbox
 
-# Switch execution context away from root to the new user
+# 5. Lock down the security context back to the low-privileged user
 USER sandbox
-
-# Set the active working directory safely inside the user's home space
 WORKDIR /home/sandbox
 
-# Default command if no arguments are passed
 CMD ["/bin/bash"]
